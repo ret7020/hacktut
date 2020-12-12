@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Main</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,600,700">
+    <link rel="stylesheet" href="../../demo.css">
+    <script src="https://www.rudebox.org.ua/js/jquery-3.3.1.js"></script>
+    <script src="../../hc-offcanvas-nav.js"></script>
+  </head>
+
+  <body>
+
+    <div id="container">
+
+      <header>
+
+        <div class="wrapper cf">
+
+          <nav id="main-nav">
+
+            <ul class="first-nav">
+              <li class="devices">
+                <a href="pages/kali/index.html" target="_blank">Kali Linux</a>
+                <ul>
+                  <li><a href="pages/kali/soft.html">Софт</a></li>
+                  <li><a href="pages/kali/tutorials.html">Туториалы</a></li>
+                  <li><a href="#">Описание</a></li>
+                  <li><a href="#">Возможности</a></li>
+                </ul>
+              </li>
+            </ul>
+             <ul class="second-nav">
+              <li class="devices">
+                <a href="../../index.html">Главная</a>
+              </li>
+            </ul>
+            
+            
+          </nav>
+
+          <div></div>
+
+          <a class="toggle">
+            <span></span>
+            Меню
+          </a>
+
+        </div>
+
+      </header>
+
+      <main>
+
+        <div class="wrapper">
+
+          <div class="content">
+
+            <h4>Kali Linux софт</h4>
+          </div>
+
+        </div>
+
+      </main>
+
+      <script>
+        (function($) {
+          var $nav = $('#main-nav');
+          var $toggle = $('.toggle');
+          var data = {};
+          var defaultData = {
+            maxWidth: false,
+            customToggle: $toggle,
+            navTitle: 'Все категории',
+            levelTitles: true,
+            pushContent: '#container'
+          };
+
+          // calling like this only for demo purposes
+
+          const initNav = function(conf) {
+            var $old = $('.hc-offcanvas-nav');
+
+            setTimeout(function() {
+              if ($old.length) {
+                // clear previous instance
+                $old.remove();
+              }
+            }, $toggle.hasClass('toggle-open') ? 420 : 0);
+
+            if ($toggle.hasClass('toggle-open')) {
+              $toggle.click();
+            }
+
+            // remove old toggle click event
+            $toggle.off('click');
+
+            // remember data
+            $.extend(data, conf)
+
+            // call the plugin
+            $nav.clone().hcOffcanvasNav($.extend({}, defaultData, data));
+          }
+
+          // run first demo
+          initNav({});
+
+          $('.actions').find('a').on('click', function(e) {
+            e.preventDefault();
+
+            var $this = $(this).addClass('active');
+            var $siblings = $this.parent().siblings().children('a').removeClass('active');
+
+            initNav(eval('(' + $this.data('demo') + ')'));
+          });
+
+          $('.actions').find('input').on('change', function() {
+            var $this = $(this);
+            var data = eval('(' + $this.data('demo') + ')');
+
+            if ($this.is(':checked')) {
+              initNav(data);
+            }
+            else {
+              var removeData = {};
+              $.each(data, function(index, value) {
+                removeData[index] = false;
+              });
+              initNav(removeData);
+            }
+          });
+        })(jQuery);
+      </script>
+
+    </div>
+       
+  </body>
+</html>
